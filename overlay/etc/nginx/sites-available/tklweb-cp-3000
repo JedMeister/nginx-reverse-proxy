@@ -1,0 +1,30 @@
+# tklweb-cpserve on localhost port 3000 via plain HTTP
+server {
+    # bind to localhost and only serve via ipv4
+    listen localhost:3000 default_server;
+
+    root /var/www;
+
+    # only look for html/htm index files
+    index index.html index.htm;
+
+    # generic servername
+    server_name _;
+
+    access_log /var/log/nginx/tklweb-cp_access.log;
+    error_log /var/log/nginx/tklweb-cp_error.log;
+
+    location / {
+        # attempt to serve request as file, then
+        # as directory, then fall back to 404
+        try_files $uri $uri/ =404;
+    }
+
+    # deny access to all dot files
+    location ~ /\. {
+	    deny all;
+	    log_not_found off;
+	    access_log off;
+	    return 404;
+    }
+}

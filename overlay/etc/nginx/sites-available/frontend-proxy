@@ -1,0 +1,50 @@
+# redirect http to https
+server {
+    listen [::]:80;
+    listen 0.0.0.0:80;
+
+    # generic servername
+    server_name _;
+
+    #server_name www.example.com;
+
+    # temporary redirect 307 generic name
+    return 307 https://$host$request_uri;
+
+    # permanent redirect specific name
+    #return 307 https://www.example.com$request_uri;
+}
+
+# reverse proxy serving on https
+server {
+    listen [::]:443 ssl;
+    listen 0.0.0.0:443 ssl;
+    include /etc/nginx/snippets/ssl.conf;
+
+    #server_name www.example.com;
+
+    access_log /var/log/nginx/frontend_access.log;
+    error_log /var/log/nginx/frontend_error.log;
+
+    # reverse proxy webroot to backend
+    location / {
+        # basic proxy conf
+        include /etc/nginx/proxy_params;
+
+        proxy_pass http://localhost:3000;
+
+        # additional proxy conf
+        include /etc/nginx/snippets/proxy-extra.conf;
+    }
+
+    # reverse proxy sub directory to backend
+    #    location /my_dir {
+    #    # basic proxy conf
+    #    include /etc/nginx/proxy_params;
+    #
+    #    proxy_pass http://localhost:3000;
+    #
+    #    # additional proxy conf
+    #    include /etc/nginx/snippets/proxy-extra.conf;
+    #}
+}
