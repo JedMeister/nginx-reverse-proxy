@@ -1,4 +1,20 @@
 #!/bin/bash -ex
 
+# remove unneeded files
+rm /etc/nginx/snippets/fastcgi-php.conf
+rm /etc/nginx/snippets/php-fpm.conf
+rm /var/www/images/{adminer.png,filemanager.png,shell.png}
+
+# disable tkl-default
+rm /etc/nginx/sites-enabled/tkl-default
+
+# enable frontend proxy
+ln -s /etc/nginx/sites-available/frontend \
+    /etc/nginx/sites-enabled/frontend
+
+# enable localhost port 3000 - tklweb-cp
+ln -s /etc/nginx/sites-available/tklweb-cp-3000 \
+    /etc/nginx/sites-enabled/tklweb-cp-3000
+
 # test nginx config - if invalid will fail
 nginx -t
