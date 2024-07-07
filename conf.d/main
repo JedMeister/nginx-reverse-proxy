@@ -9,8 +9,8 @@ rm /var/www/images/{adminer.png,filemanager.png,shell.png}
 rm /etc/nginx/sites-enabled/tkl-default
 
 # enable frontend proxy
-ln -s /etc/nginx/sites-available/frontend \
-    /etc/nginx/sites-enabled/frontend
+ln -s /etc/nginx/sites-available/frontend-proxy \
+    /etc/nginx/sites-enabled/frontend-proxy
 
 # enable localhost port 3000 - tklweb-cp
 ln -s /etc/nginx/sites-available/tklweb-cp-3000 \
