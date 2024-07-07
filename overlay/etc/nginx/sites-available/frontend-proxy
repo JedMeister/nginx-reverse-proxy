@@ -21,6 +21,8 @@ server {
     listen 0.0.0.0:443 ssl;
     include /etc/nginx/snippets/ssl.conf;
 
+    include /etc/nginx/snippets/deny_special_paths.conf;
+
     #server_name www.example.com;
 
     access_log /var/log/nginx/frontend_access.log;
@@ -34,7 +36,7 @@ server {
         proxy_pass http://localhost:3000;
 
         # additional proxy conf
-        include /etc/nginx/snippets/proxy-extra.conf;
+        include /etc/nginx/snippets/proxy_extra.conf;
     }
 
     # reverse proxy sub directory to backend
@@ -45,6 +47,6 @@ server {
     #    proxy_pass http://localhost:3000;
     #
     #    # additional proxy conf
-    #    include /etc/nginx/snippets/proxy-extra.conf;
+    #    include /etc/nginx/snippets/proxy_extra.conf;
     #}
 }
